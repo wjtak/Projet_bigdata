@@ -1,4 +1,4 @@
-# Projet-Big-Data-ECE-Kafka-Streaming
+# Projet BigData ECE ING4 BDA 
 
 ![logo](data/img/kafkalogo1.png)
 
@@ -38,35 +38,32 @@
 
 # Description du projet <a id="desc"></a>
 
-Ce projet a été réalisé dans le cadre de notre cours en `Ecosystèmes Big Data`. Ce projet a pour but de simuler de bout en bout toute la chaîne de valeur de la `Data` dans un use-case typique que pourrait faire une banque. 
+Ce projet a été réalisé dans le cadre de notre cours en `Ecosystèmes Big Data`. Notre projet offre une solution de gestion du cycle de vie des données pour un grossiste qui souhaiterait gérer ses stocks avec une base de données. 
 
-En utilisant des technologies comme `Python`, `Spark` nous avons pu effectuer des séries de traitements de données en `Streaming`que nous avons ensuite stocké en utilisant `SQLite` pour enfin réaliser des Dashboards de pilotage via l'API `Streamlit` de Python.
+Les technologies enjeu ici sont principalement `Python` et `Spark` pour le traitement de données en `Streaming`, `SQLite` pour la partie base de données et `Streamlit` pour la partie DataViz.
 
-Suivez les étapes décrites dans ce document et laissez vous guider !!!
+Les étapes décrites ici permettent de simuler le parcours de la data dans ce cas typique.
 
 
-Notre workflow :
+Workflow :
 ![pipeline](data/img/archi.png)
 
 
 # Description du dépôt GitHub <a id="descgithub"></a>
 
-Ce dépôt GitHub comporte les éléments suivant :
+Ici vous trouverez :
 
-- un fichier **_README.md_** décrivant l'utilisation de ce projet.
+- un fichier **README.md** illustrant les étapes à effectuer pour simuler le projet.
 
-- un fichier **_rapport_OUEDRAOGO_Taoufiq_DIARRASSOUBA_Khadara.pdf_** servant de rapport pour notre projet.
 
-- un fichier **_kafka.zip_** contenant tout les éléments nécessaires au bon lancement de Kafka.
+- un dossier **code** contenant:
+    - un fichier **utils.py** contenant plusieurs fonctions utilisées dans le projet.
+    - un fichier **Producer.py** qui décrit le fonctionnement du `Producer Kafka` codé en python.
+    - un fichier **Consumer.py** qui décrit le fonctionnement du `Consumer Kafka` codé en python.
 
-- un dossier **_code_** contenant:
-    - un fichier **_utils.py_** contenant plusieurs fonctions utilisées dans le projet.
-    - un fichier **_KafkaProducer.py_** qui décrit le fonctionnement du `Producer Kafka`.
-    - un fichier **_KafkaConsumer.py_** qui décrit le fonctionnement du `Consumer Kafka`.
-
-- un dossier **_data_** contenant:
-    - un fichier **_client_transaction.csv_** utilisé pour alimenter initialement notre base de données.
-    - un dossier **_img_** contenant les images illustrées dans le readme.
+- un dossier **data** contenant:
+    - un fichier **operations.csv** qui sert remplir par défaut notre base de données.
+    - un dossier **img** contenant toutes les images illustrées dans cette section.
 
 
 
@@ -75,44 +72,44 @@ Ce dépôt GitHub comporte les éléments suivant :
 
 ### 1. Cloner le dépôt GitHub <a id="clone"></a>
 
-Ouvrez votre terminal sur votre ordinateur et placez vous dans l'endroit où vous souhaitez télécharger ce projet. 
+Ouvrez votre terminal sur votre ordinateur et placez vous dans le dossier où vous souhaitez télécharger ce projet. 
 
 Pour télécharger via `SSH`, tapez :
 ```
-git clone git@github.com:ritmosky/Projet-Big-Data-ECE-Kafka-Streaming.git
+git clone git@github.com:wjtak/Projet_bigdata.git
 ```
 
 Pour télécharger via `HTTPS`, tapez :
 ```
-git clone https://github.com/ritmosky/Projet-Big-Data-ECE-Kafka-Streaming.git
+git clone https://github.com/wjtak/Projet_bigdata.git
 ```
 
 
 ### 2. Télécharger Apache Kafka <a id="downloadkafka"></a>
 
-Ensuite, pour télécharger la bonne version de Kafka, rendez vous sur cette [page officielle de Kafka](https://www.apache.org/dyn/closer.cgi?path=/kafka/3.7.0/kafka_2.13-3.7.0.tgz). Cliquez sur le premier lien du site pour télécharger le dossier. Une fois le fichier zip téléchargé, placez le à l'intérieur du dossier du projet sur votre machine. 
+Ensuite, pour télécharger la bonne version de Kafka, rendez vous sur cette [page officielle de Kafka](https://www.apache.org/dyn/closer.cgi?path=/kafka/3.7.0/kafka_2.13-3.7.0.tgz). Cliquez sur le premier lien du site pour télécharger le dossier. Une fois le fichier zip téléchargé, dépacez le vers le dossier du projet sur votre machine. 
 
-Puis, ouvrez un terminal dans le dossier du projet et entrez la commande pour dézipper le fichier et le renommer en `kafka` :
+Puis, ouvrez un terminal dans le dossier Projet_bigdata et entrez la commande pour dézipper le fichier et le renommer en `kafka` :
 
 ```
 tar -xzf kafka_*.t*; mv kafka_2.13-3.7.0 kafka
 ```
 
-Au cas où la version changerait, il faudra adapter la fin de la commande précédente pour pouvoir faire le renommage.
+Il faut s'assurer qu'il s'agit bien de la bonne version de kafka qui a été téléchargée, si non adaptez la commande précédente à votre cas.
 
 
 
 ### 3. Télécharger Java <a id="downloadjava"></a>
 
-Il est nécessaire d'avoir un environnement `Java` pour exécuter `Kafka`. 
+`Kafka` est exécutée par jdk de `Java` ce qui impliquee que vous devez avoir instaler Java. 
 
-Pour vérifier si vous possédez déjà une version Java, entrez cette commande dans votre terminal :
+La commande ci-dessous vous permet de savoir si Java est déjà intallée ou non sur votre machine :
 
 ```
 java -version
 ```
 
-Si un message d'erreur s'affiche, alors il faudra installer Java. Alors tapez dans le terminal : 
+Si une erreur se produit celà signifie qu'il faut installer Java via la commande ci-dessous : 
 ```
 sudo apt update
 ```
@@ -126,15 +123,15 @@ sudo apt install default-jdk
 
 ### 4. Télécharger Python <a id="downloadpy"></a>
 
-Il est nécessaire d'avoir également `Python` pour lancer les différents programmes. 
+Il est aussi nécessaire d'avoir `Python` pour exécuter nos scripts. 
 
-Pour vérifier si Python est déjà installé, entrez cette commande dans votre terminal :
+La commande ci-dessous vous permet de savoir si Python est déjà intallée ou non sur votre machine :
 
 ```
 python --version
 ```
 
-Si un message d'erreur s'affiche, alors il faudra installer Python. Alors tapez dans le terminal : 
+Si une erreur se produit celà signifie qu'il faut installer Python via la commande ci-dessous : 
 
 ```
 sudo apt install python3
@@ -144,19 +141,20 @@ sudo apt install python3
 # II. Lancer les services (ZooKeeper et Kafka) <a id="launchsrvc"></a>
 
 
-Avant de lancer les services (ZooKeeper et Kafka), il faut vérifier que les ports qu'ils utilisent ne soient pas déjà utilisés par d'autres processus car cela pourrait engendrer des conflits.
+Avant de lancer les services (ZooKeeper et Kafka), il faut vérifier que les ports qu'ils utilisent ne soient pas déjà utilisés par d'autres processus pour éviter des conflits.
 
-Pour lister les processus écoutant sur un port, tapez la commande ci-dessus dans votre terminal (en remplacant port_machine par le port en question) : 
+Pour lister les processus écoutant sur un port en particulier, tapez la commande ci-dessous dans votre terminal (en remplacant port par le port concerné) : 
 
 ```
-lsof -i :port_machine
+lsof -i :port
 ```
 
-Si plusieurs processus écoutent sur le même port, il faudra kill ces processus. Pour tuer un processus, tapez la commande suivante dans votre terminal (en remplacant process_pid par le pid du processus en question): 
+Si plusieurs processus écoutent sur le même port, il faudra kill ces processus. La commande suivante permet de tuer un processus (en remplacant process_pid par le pid du processus concerné): 
 
 ```
 kill process_pid
 ```
+Selon les fichiers properties dans kafka/config on a pu avoir les infos suivantes :
 
 | Service | Port utilisé |
 |-----------|-----------|
@@ -166,7 +164,7 @@ kill process_pid
 
 ### 1. Lancer le service ZooKeeper <a id="zookeeper"></a>
 
-Ouvrez une fenêtre de votre terminal et placez vous dans le dossier Kafka, puis tapez :
+Ouvrez une fenêtre de votre terminal puis exécutez la commande ci-dessous en vous plaçant dans le dossier Projet_bigdata :
 
 ```
 kafka/bin/zookeeper-server-start.sh kafka/config/zookeeper.properties
@@ -174,7 +172,7 @@ kafka/bin/zookeeper-server-start.sh kafka/config/zookeeper.properties
 
 ### 2. Lancer le service Kafka Broker <a id="broker"></a>
 
-Ouvrez une seconde fenêtre du terminal et placez vous dans le dossier Kafka, puis tapez :
+Ouvrez une nouvelle fenêtre de votre terminal puis exécutez la commande ci-dessous en vous plaçant dans le dossier Projet_bigdata :
 
 ```
 kafka/bin/kafka-server-start.sh kafka/config/server.properties
@@ -182,90 +180,71 @@ kafka/bin/kafka-server-start.sh kafka/config/server.properties
 
 ### 3. Créer un Topic <a id="topic"></a>
 
-Ouvrez une troisième fenêtre du terminal et placez vous dans le dossier Kafka, puis tapez :
+Ouvrez une nouvelle fenêtre de votre terminal puis exécutez la commande ci-dessous en vous plaçant dans le dossier Projet_bigdata :
 
 ```
-kafka/bin/kafka-topics.sh --create --topic ProjectBigData --bootstrap-server localhost:9092
+kafka/bin/kafka-topics.sh --create --topic BigData --bootstrap-server localhost:9092
 ```
 
-Cela créera un nouveau Topic nommé `ProjectBigData` sur le serveur `localhost:9092`. Si vous voulez le changer le nom, il faudra également modifier quelques lignes de code dans le fichier **_utils.py_**.
+Cela créera un nouveau Topic nommé `BigData` sur le serveur `localhost:9092`. Vous pouvez changer de nom de Topic mais il faudra aussi modifier le TOPIC_NAME dans **utils.py**.
 
-Vous pouvez vérifier la création en essayant d'afficher la description du Topic (toujours en étant dans le dossier Kafka) :
-
-```
-kafka/bin/kafka-topics.sh --describe --topic ProjectBigData --bootstrap-server localhost:9092
-```
-
-Les Topics doivent avoir des noms uniques, sinon des conflits seront engendrés plus tard lors de l'exécution du programme. Veuillez donc à vérifier la liste des Topics présents avec la commande (toujours en étant dans le dossier Kafka) :
+Vous pouvez vérifier la création de votre topic depuis le dossier Projet_bigdata en affichant la description du Topic avec la commande ci-dessous:
 
 ```
-kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+kafka/bin/kafka-topics.sh --describe --topic BigData --bootstrap-server localhost:9092
 ```
-
-Pour supprimer un Topic, tapez (toujours en étant dans le dossier Kafka) : 
-```
-kafka/bin/kafka-topics.sh --delete --topic topic_name --bootstrap-server localhost:9092
-```
-
 
 # III. Lancer Kafka Consumer et Kafka Producer <a id="consprod"></a>
 
 ![architecture](data/img/kafkaarchi.png)
 
 
-Durant ce projet, la base de données qui sera manipulée aura pour schéma :
+La base de données operations manipulée ici a pour config :
 ```
-CREATE TABLE IF NOT EXISTS transactions (
-            transaction_date DATETIME,
-            account TEXT,
-            transaction_value NUMERIC(10,2),
-            balance NUMERIC(10,2),
-            transaction_type TEXT
+CREATE TABLE IF NOT EXISTS operations (
+        operation_date DATETIME,
+        product_ID TEXT,
+        operation_qt NUMERIC(10,2),
+        stock NUMERIC(10,2),
+        operation_type TEXT
         )
 ```
 
 
-Les fichiers Python décrits plus hauts permettront de lancer le Consumer et le Producer Kafka.
-
-
 ### 1. Lancer le Consumer Kafka <a id="cons"></a>
 
-Ouvrez un terminal, puis placez vous dans le dossier du projet et tapez la commande : 
+Ouvrez une fenêtre de votre terminal puis exécutez la commande ci-dessous en vous plaçant dans le dossier Projet_bigdata :
 
 ```
-python3 code/KafkaConsumer.py
+python3 code/Consumer.py
 ```
 
-Cela installera dans un premier temps les packages Python nécessaires pour le projet. Ensuite, une connexion sera effectué avec le serveur de la base de données.
+Cela installera dans un premier temps les packages Python nécessaires pour le projet, puis une connexion sera effectuée avec le serveur de la base de données.
 
 
 ### 2. Lancer le Producer Kafka <a id="prod"></a>
 
-Ouvrez un terminal, puis placez vous dans le dossier du projet et tapez la commande : 
+Ouvrez une fenêtre de votre terminal puis exécutez la commande ci-dessous en vous plaçant dans le dossier Projet_bigdata :
 
 ```
-python3 code/KafkaProducer.py
+python3 code/Producer.py
 ```
 
-Cela permettra de se connecter au serveur de la base de données et de créer la base ainsi que la table qui contiendra dans un premier temps, les éléments du fichier csv. 
+Cela permettra de se connecter au serveur de la base de données et de créer la base par défaut ainsi que la table operations avec les valeurs renseignées dans data/operations.csv. 
 
-Après le chargement des éléments du fichier dans la base de données, une interface web Streamlit sera lancée dans le navigateur. Vous pouvez y accéder sur le l'URL http://localhost:8501 . L'interface web est utilisée pour visualiser les dashboards de suivi des transactions. Ensuite, une interface graphique `Tkinter (Python)` sera également présentée. Cette interface permet de renseigner des transactions en temps réel pour des clients. Toutes ces transactions seront automatiquement ajoutées dans la base de données. Vous pouvez laisser l'interface ouverte pour rajouter des transactions et les visualiser en temps réel avec l'interface web. Il est important de rafraichir la page web pour visualiser les nouveaux éléments rajoutés.
+Après la création de la base de données, une interface web Streamlit sera lancée dans votre navigateur. Vous pouvez y accéder sur le l'URL http://localhost:8501 . L'interface web est utilisée pour visualiser les dashboards de suivi des opérations. Ensuite, une interface graphique `Tkinter (Python)` sera également présentée. Cette interface permet de rajouter des opérations en temps réel par le grossiste. Toutes ces opérations seront automatiquement ajoutées dans la base de données. Veuillez laisser l'interface ouverte pour pouvoir rajouter des opérations et les visualiser en temps réel avec l'interface web. Il faudra rafraichir la page web pour visualiser les nouvelles données rajoutées.
 
 <br>
 
 Interface Tkinter (connexion):
 ![tkinter GUI](data/img/tkinter.png)
 
-Interface Tkinter (transaction utilisateur):
-![tkinter GUI](data/img/make_transac.png)
+Interface Tkinter (Vente de produit):
+![tkinter GUI](data/img/sales.png)
+
+Interface Tkinter (Stock après vente):
+![tkinter GUI](data/img/stock.png)
+
 
 <br>
 
-Interface web Streamlit (affichage des transactions):
-![webapp](data/img/streamlit.png)
-
-Interface web Streamlit (dashboard transaction par compte):
-![webapp](data/img/dash2_web.png)
-
-Interface web Streamlit (dashboard balance par compte):
-![webapp](data/img/balance.png)

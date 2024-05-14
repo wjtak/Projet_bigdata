@@ -12,13 +12,13 @@ def install_requirements():
     for pckg in packages:
         try:
             # Vérifier si le paquet est déjà installé en utilisant pip show
-            subprocess.run(["pip", "show", pckg], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(["pip3", "show", pckg], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             print(f"{pckg} est déjà installé.")
         except:
             # Bloc pour gérer le cas où un paquet n'est pas trouvé et doit être installé
             try:
                 # Installation du paquet manquant via pip install
-                subprocess.run(["pip", "install", pckg], check=True)
+                subprocess.run(["pip3", "install", pckg], check=True)
                 print(f"{pckg} installé avec succès.")
             except Exception as e:
                 # Gestion des erreurs d'installation
@@ -28,7 +28,7 @@ def install_requirements():
 #  VARIABLES :
 
 # Définition des variables globales utilisées dans le projet
-SERVER_PORT = "localhost:6469"
+SERVER_PORT = "localhost:9092"
 TOPIC_NAME = 'BigData'
 
 
@@ -40,7 +40,7 @@ def connection_db():
     conn = None
     try:
         # Tentative de connexion à la base de données SQLite
-        conn = sqlite3.connect('./data/operations.db')
+        conn = sqlite3.connect('./data/Operations.db')
         print("Connection to SQLite DB successful")
     except sqlite3.Error as e:
         # Gestion des erreurs de connexion
